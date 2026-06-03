@@ -1,0 +1,16 @@
+AGENTS.md
+.gitignore
+docs/
+src/
+tsconfig.json
+.vscode-test.mjs
+esbuild.js
+.superpowers/
+node_modules/
+out/
+.vscode-test/
+*.vsix
+package-lock.json
+dist/**/*.map
+scripts/
+TODO

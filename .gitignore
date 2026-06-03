@@ -1,0 +1,8 @@
+.superpowers/
+node_modules/
+out/
+dist/
+.vscode-test/
+*.vsix
+TODO
+scripts/

@@ -1,0 +1,379 @@
+{
+  "name": "repo-launcher",
+  "displayName": "Repo Launcher",
+  "description": "Open configured repositories from one Activity Bar view.",
+  "version": "0.0.1",
+  "publisher": "leonbjorklund",
+  "icon": "media/logo.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leonbjorklund/vscode-repo-list-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leonbjorklund/vscode-repo-list-extension/issues"
+  },
+  "homepage": "https://github.com/leonbjorklund/vscode-repo-list-extension#readme",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "repoLauncher.addRepository",
+        "title": "Add Repo or Folder",
+        "category": "Repo Launcher",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "repoLauncher.addRepositoryAtRoot",
+        "title": "Add Repo or Folder",
+        "category": "Repo Launcher",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "repoLauncher.enableOpenInNewWindow",
+        "title": "Open in New Window",
+        "category": "Repo Launcher"
+      },
+      {
+        "command": "repoLauncher.disableOpenInNewWindow",
+        "title": "✓  Open in New Window",
+        "category": "Repo Launcher"
+      },
+      {
+        "command": "repoLauncher.enableShowPathsByDefault",
+        "title": "Show Paths",
+        "category": "Repo Launcher"
+      },
+      {
+        "command": "repoLauncher.disableShowPathsByDefault",
+        "title": "✓  Show Paths",
+        "category": "Repo Launcher"
+      },
+      {
+        "command": "repoLauncher.createGroup",
+        "title": "Add Group",
+        "category": "Repo Launcher",
+        "icon": "$(layers)"
+      },
+      {
+        "command": "repoLauncher.createRootGroup",
+        "title": "Add Group",
+        "category": "Repo Launcher",
+        "icon": "$(layers)"
+      },
+      {
+        "command": "repoLauncher.openRepository",
+        "title": "Open in Code",
+        "category": "Repo Launcher",
+        "icon": "$(repo)"
+      },
+      {
+        "command": "repoLauncher.renameGroup",
+        "title": "Rename",
+        "category": "Repo Launcher",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "repoLauncher.moveRepositoryToGroup",
+        "title": "Group",
+        "category": "Repo Launcher",
+        "icon": "$(folder)"
+      },
+      {
+        "command": "repoLauncher.showRepositoryPath",
+        "title": "Show Path",
+        "category": "Repo Launcher"
+      },
+      {
+        "command": "repoLauncher.hideRepositoryPath",
+        "title": "Hide Path",
+        "category": "Repo Launcher"
+      },
+      {
+        "command": "repoLauncher.deleteSelectedItem",
+        "title": "Remove",
+        "category": "Repo Launcher",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "repoLauncher.ungroupSelectedGroup",
+        "title": "Ungroup",
+        "category": "Repo Launcher",
+        "icon": "$(remove)"
+      },
+      {
+        "command": "repoLauncher.revealInFileExplorer",
+        "title": "Reveal in File Explorer",
+        "category": "Repo Launcher",
+        "icon": "$(folder-opened)"
+      }
+    ],
+    "configuration": {
+      "title": "Repo Launcher",
+      "properties": {
+        "repoLauncher.openBehavior": {
+          "type": "string",
+          "scope": "application",
+          "enum": [
+            "newWindow",
+            "sameWindow"
+          ],
+          "enumItemLabels": [
+            "Open in New Window",
+            "Replace Window"
+          ],
+          "default": "newWindow",
+          "description": "Controls whether a repository opens in a new VS Code window or replaces the current window."
+        },
+        "repoLauncher.showPathsByDefault": {
+          "type": "boolean",
+          "scope": "application",
+          "default": false,
+          "description": "Controls whether repository paths are shown by default when a repository does not have an explicit path visibility override."
+        },
+        "repoLauncher.scan.exclude": {
+          "type": "array",
+          "scope": "application",
+          "default": [
+            ".git",
+            "node_modules",
+            "AppData",
+            "Library",
+            ".cache",
+            ".npm",
+            ".yarn"
+          ],
+          "description": "Folder names skipped while scanning selected folders for Git repositories.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "repoLauncher",
+          "title": "Repositories",
+          "icon": "media/logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "repoLauncher": [
+        {
+          "id": "repoLauncher.repositories",
+          "name": "Repositories",
+          "icon": "$(repo)"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "repoLauncher.repositories",
+        "contents": "[Add Repo or Folder](command:repoLauncher.addRepository)"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "repoLauncher.settingsMenu",
+        "label": "Settings",
+        "icon": "$(gear)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "repoLauncher.addRepositoryAtRoot",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.createRootGroup",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.enableOpenInNewWindow",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.disableOpenInNewWindow",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.enableShowPathsByDefault",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.disableShowPathsByDefault",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.openRepository",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.renameGroup",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.moveRepositoryToGroup",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.showRepositoryPath",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.hideRepositoryPath",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.revealInFileExplorer",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.deleteSelectedItem",
+          "when": "false"
+        },
+        {
+          "command": "repoLauncher.ungroupSelectedGroup",
+          "when": "false"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "repoLauncher.createRootGroup",
+          "when": "view == repoLauncher.repositories",
+          "group": "navigation@1"
+        },
+        {
+          "command": "repoLauncher.addRepositoryAtRoot",
+          "when": "view == repoLauncher.repositories",
+          "group": "navigation@2"
+        },
+        {
+          "submenu": "repoLauncher.settingsMenu",
+          "when": "view == repoLauncher.repositories",
+          "group": "navigation@3"
+        }
+      ],
+      "repoLauncher.settingsMenu": [
+        {
+          "command": "repoLauncher.disableOpenInNewWindow",
+          "when": "config.repoLauncher.openBehavior != 'sameWindow'",
+          "group": "1_open@1"
+        },
+        {
+          "command": "repoLauncher.enableOpenInNewWindow",
+          "when": "config.repoLauncher.openBehavior == 'sameWindow'",
+          "group": "1_open@1"
+        },
+        {
+          "command": "repoLauncher.disableShowPathsByDefault",
+          "when": "config.repoLauncher.showPathsByDefault",
+          "group": "2_paths@1"
+        },
+        {
+          "command": "repoLauncher.enableShowPathsByDefault",
+          "when": "!config.repoLauncher.showPathsByDefault",
+          "group": "2_paths@1"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "repoLauncher.addRepository",
+          "when": "view == repoLauncher.repositories && (viewItem == group || viewItem == emptyGroup || viewItem == folderSourceGroup || viewItem == emptyFolderSourceGroup)",
+          "group": "1_primary@1"
+        },
+        {
+          "command": "repoLauncher.renameGroup",
+          "when": "view == repoLauncher.repositories && (viewItem == group || viewItem == emptyGroup || viewItem == folderSourceGroup || viewItem == emptyFolderSourceGroup)",
+          "group": "1_primary@3"
+        },
+        {
+          "command": "repoLauncher.openRepository",
+          "when": "view == repoLauncher.repositories && (viewItem == repositoryPathVisible || viewItem == repositoryPathHidden || viewItem == missingRepositoryPathVisible || viewItem == missingRepositoryPathHidden)",
+          "group": "1_primary@0"
+        },
+        {
+          "command": "repoLauncher.moveRepositoryToGroup",
+          "when": "view == repoLauncher.repositories && (viewItem == repositoryPathVisible || viewItem == repositoryPathHidden || viewItem == missingRepositoryPathVisible || viewItem == missingRepositoryPathHidden)",
+          "group": "1_primary@1"
+        },
+        {
+          "command": "repoLauncher.showRepositoryPath",
+          "when": "view == repoLauncher.repositories && (viewItem == repositoryPathHidden || viewItem == missingRepositoryPathHidden)",
+          "group": "1_primary@2"
+        },
+        {
+          "command": "repoLauncher.hideRepositoryPath",
+          "when": "view == repoLauncher.repositories && (viewItem == repositoryPathVisible || viewItem == missingRepositoryPathVisible)",
+          "group": "1_primary@2"
+        },
+        {
+          "command": "repoLauncher.revealInFileExplorer",
+          "when": "view == repoLauncher.repositories && !isWeb && (viewItem == repositoryPathVisible || viewItem == repositoryPathHidden)",
+          "group": "2_view@1"
+        },
+        {
+          "command": "repoLauncher.revealInFileExplorer",
+          "when": "view == repoLauncher.repositories && !isWeb && (viewItem == folderSourceGroup || viewItem == emptyFolderSourceGroup)",
+          "group": "2_view@1"
+        },
+        {
+          "command": "repoLauncher.deleteSelectedItem",
+          "when": "view == repoLauncher.repositories && (viewItem == repositoryPathVisible || viewItem == repositoryPathHidden || viewItem == missingRepositoryPathVisible || viewItem == missingRepositoryPathHidden)",
+          "group": "9_destructive@1"
+        },
+        {
+          "command": "repoLauncher.ungroupSelectedGroup",
+          "when": "view == repoLauncher.repositories && (viewItem == group || viewItem == folderSourceGroup)",
+          "group": "9_destructive@1"
+        },
+        {
+          "command": "repoLauncher.deleteSelectedItem",
+          "when": "view == repoLauncher.repositories && (viewItem == group || viewItem == emptyGroup || viewItem == folderSourceGroup || viewItem == emptyFolderSourceGroup)",
+          "group": "9_destructive@2"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "repoLauncher.deleteSelectedItem",
+        "key": "delete",
+        "mac": "delete",
+        "when": "focusedView == 'repoLauncher.repositories' && listHasSelectionOrFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "check-types": "tsc --noEmit -p ./",
+    "compile": "npm run check-types && node esbuild.js",
+    "compile-tests": "node -e \"require('fs').rmSync('out', { recursive: true, force: true })\" && tsc -p ./",
+    "watch": "node esbuild.js --watch",
+    "package": "npm run check-types && node esbuild.js --production",
+    "test": "npm run compile-tests && npm run compile && vscode-test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/vscode": "1.90.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.28.1",
+    "typescript": "^5.5.4"
+  },
+  "overrides": {
+    "diff": "8.0.3",
+    "serialize-javascript": "7.0.5"
+  }
+}
