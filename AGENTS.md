@@ -15,7 +15,7 @@ npm test              # compile-tests + compile + vscode-test
 npm run package       # production bundle
 ```
 
-Bundles to `dist/extension.js` via esbuild; `tsconfig.json` emits to `out/` only for the test run. `npm test` downloads a VS Code build into `.vscode-test/` (gitignored, ~800 MB) — safe to delete anytime.
+Bundles to `dist/extension.js` via esbuild; `tsconfig.json` emits to `out/` only for the test run. `npm test` downloads a VS Code build into `.vscode-test/`.
 
 ## Layout
 
@@ -25,11 +25,10 @@ Bundles to `dist/extension.js` via esbuild; `tsconfig.json` emits to `out/` only
 - `src/repositoryDiscovery.ts` — folder scanning, honors `repoLauncher.scan.exclude`.
 - `src/openRepository.ts` — window-open behavior; `settings.ts` reads config.
 - `src/constants.ts` — config section/keys and `DEFAULT_SCAN_EXCLUDES`. `src/strings.ts` — string trim/normalize helpers, not a message catalog.
-- `src/test/` — `vscode-test` suites, one per module.
+- `src/test/` — `vscode-test` suites named `<module>.test.ts`.
 
 ## Rules
 
-- User-facing messages are inlined at their `vscode.window.show*` call sites in `extension.ts`. There is no message catalog — don't invent one for a small change.
 - Config keys belong in `constants.ts`, never as string literals in providers.
 - Add a focused test in `src/test/` alongside behavior changes.
 - No telemetry or network access — the extension only reads local paths.
